@@ -1,0 +1,23 @@
+name: window_close_guard
+description: "Flutter package for safe window close handling on desktop with confirmation dialog support."
+version: 1.0.0
+homepage: https://github.com/RaulCatalinas/WindowCloseGuard
+repository: https://github.com/RaulCatalinas/WindowCloseGuard
+
+environment:
+  sdk: ">=3.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+platforms:
+  windows:
+  macos:
+  linux:

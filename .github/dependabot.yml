@@ -1,0 +1,13 @@
+version: 2
+
+updates:
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+    groups:
+      dependencies:
+        dependency-type: "production"
+      devDependencies:
+        dependency-type: "development"

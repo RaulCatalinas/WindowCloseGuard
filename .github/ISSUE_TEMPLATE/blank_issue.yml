@@ -1,0 +1,22 @@
+name: Blank Issue
+description: For anything that doesn't fit the other templates
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please provide as much detail as possible so we can help you effectively.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe your issue, question, or topic as clearly as possible.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Any other information that might be relevant.
