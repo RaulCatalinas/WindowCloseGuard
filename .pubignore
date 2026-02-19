@@ -7,4 +7,5 @@ test
 .dart_tool
 analysis_options.yaml
 CONTRIBUTING.md
-window_close_guard.iml
+*.iml
+.gitignore
