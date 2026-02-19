@@ -37,27 +37,28 @@ flutter pub get
 
 ## Usage
 
-Call `WindowCloseGuard.initialize()` in your `main()` function, after `WidgetsFlutterBinding.ensureInitialized()` and before `runApp()`:
+Call `WindowCloseGuard.initialize()` in `didChangeDependencies()` of your first stateful widget:
 
 ```dart
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
-  await WindowCloseGuard.initialize(
-    context: context,
-    onClose: () async {
-      await MyPreferences.save();
-      await MyLogger.saveLogs();
-    },
-    dialogConfig: CloseDialogConfig(
-      title: 'Exit',
-      content: 'Are you sure you want to exit?',
-      confirmText: 'Yes',
-      cancelText: 'No',
-    ),
-  );
-
-  runApp(const MyApp());
+    WindowCloseGuard.initialize(
+      context: context,
+      onClose: () async {
+        await MyPreferences.save();
+        await MyLogger.saveLogs();
+      },
+      dialogConfig: CloseDialogConfig(
+        title: 'Exit',
+        content: 'Are you sure you want to exit?',
+        confirmText: 'Yes',
+        cancelText: 'No',
+      ),
+    );
+  }
 }
 ```
 
@@ -66,7 +67,7 @@ void main() async {
 If you just want to run cleanup tasks without asking the user for confirmation:
 
 ```dart
-await WindowCloseGuard.initialize(
+WindowCloseGuard.initialize(
   context: context,
   showDialog: false,
   onClose: () async {
@@ -77,10 +78,10 @@ await WindowCloseGuard.initialize(
 
 ### Default behavior
 
-Calling `initialize()` without any parameters shows a generic confirmation dialog:
+Calling `initialize()` without optional parameters shows a generic confirmation dialog:
 
 ```dart
-await WindowCloseGuard.initialize(context: context);
+WindowCloseGuard.initialize(context: context);
 ```
 
 ## API Reference
