@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show BuildContext;
+import 'package:flutter/material.dart' show BuildContext, WidgetsBinding;
 import 'package:window_manager/window_manager.dart'
     show WindowListener, windowManager;
 
@@ -13,21 +13,27 @@ class WindowCloseGuard with WindowListener {
   static Future<void> Function()? _onClose;
   static CloseDialogConfig? _dialogConfig;
   static bool _showDialog = true;
+  static bool _initialized = false;
 
-  static Future<void> initialize({
+  static void initialize({
     required BuildContext context,
     Future<void> Function()? onClose,
     CloseDialogConfig? dialogConfig,
     bool showDialog = true,
-  }) async {
-    _context = context;
-    _onClose = onClose;
-    _dialogConfig = dialogConfig;
-    _showDialog = showDialog;
+  }) {
+    if (_initialized) return;
+    _initialized = true;
 
-    await windowManager.ensureInitialized();
-    await windowManager.setPreventClose(true);
-    windowManager.addListener(_instance);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _context = context;
+      _onClose = onClose;
+      _dialogConfig = dialogConfig;
+      _showDialog = showDialog;
+
+      await windowManager.ensureInitialized();
+      await windowManager.setPreventClose(true);
+      windowManager.addListener(_instance);
+    });
   }
 
   @override
