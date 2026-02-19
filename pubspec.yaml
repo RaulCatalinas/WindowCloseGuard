@@ -3,6 +3,7 @@ description: "Flutter package for safe window close handling on desktop with con
 version: 1.0.0
 homepage: https://github.com/RaulCatalinas/WindowCloseGuard
 repository: https://github.com/RaulCatalinas/WindowCloseGuard
+issue_tracker: https://github.com/RaulCatalinas/WindowCloseGuard/issues
 
 environment:
   sdk: ">=3.0.0"
@@ -22,3 +23,10 @@ platforms:
   windows:
   macos:
   linux:
+
+topics:
+  - window
+  - desktop
+  - close
+  - flutter
+  - lifecycle
