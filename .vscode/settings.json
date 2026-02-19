@@ -1,0 +1,10 @@
+{
+  "[Dart]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Dart-Code.dart-code",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.dart": "always",
+      "source.organizeImports.dart": "always"
+    },
+  }
+}
