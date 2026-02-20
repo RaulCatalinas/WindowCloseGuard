@@ -8,6 +8,7 @@ A Flutter package for safe window close handling on desktop with confirmation di
 - ✅ Shows a customizable confirmation dialog before closing
 - ✅ Executes async cleanup tasks (saving data, logs, etc.) before the window is destroyed
 - ✅ Handles the close lifecycle correctly on all platforms
+- ✅ Supports dynamic dialog text via `dialogConfigBuilder` (useful for localization)
 
 ## Platform support
 
@@ -26,7 +27,7 @@ Add `window_close_guard` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  window_close_guard: ^1.0.0
+  window_close_guard: ^1.1.0
 ```
 
 Then run:
@@ -62,6 +63,24 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 ```
 
+### With localization (dynamic dialog text)
+
+Use `dialogConfigBuilder` instead of `dialogConfig` when your dialog text depends on the current locale or any other runtime value. The builder is called at the moment the dialog is shown, so it always reflects the current state:
+
+```dart
+WindowCloseGuard.initialize(
+  context: context,
+  onClose: () async {
+    await MyPreferences.save();
+  },
+  dialogConfigBuilder: () => CloseDialogConfig(
+    title: AppLocalizations.of(context)!.exit_title,
+    content: AppLocalizations.of(context)!.exit_body,
+    confirmText: AppLocalizations.of(context)!.yes,
+  ),
+);
+```
+
 ### Without a confirmation dialog
 
 If you just want to run cleanup tasks without asking the user for confirmation:
@@ -92,8 +111,11 @@ WindowCloseGuard.initialize(context: context);
 |-----------|------|----------|-------------|
 | `context` | `BuildContext` | Yes | The app's build context |
 | `onClose` | `Future<void> Function()?` | No | Async callback executed before the window closes |
-| `dialogConfig` | `CloseDialogConfig?` | No | Configuration for the confirmation dialog. If null, a default dialog is shown |
+| `dialogConfig` | `CloseDialogConfig?` | No | Static configuration for the confirmation dialog. If null, a default dialog is shown |
+| `dialogConfigBuilder` | `CloseDialogConfig Function()?` | No | Dynamic configuration builder called at close time. Takes priority over `dialogConfig`. Useful for localization |
 | `showDialog` | `bool` | No | Whether to show a confirmation dialog before closing. Defaults to `true` |
+
+> **Note:** `dialogConfigBuilder` takes priority over `dialogConfig`. If both are provided, `dialogConfigBuilder` is used.
 
 ### `CloseDialogConfig`
 

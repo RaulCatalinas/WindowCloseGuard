@@ -62,6 +62,19 @@ class _MyHomePageState extends State<MyHomePage> {
     //     // Your cleanup tasks here
     //   },
     // );
+
+    // 5. Dynamic dialog text - useful for localization
+    // WindowCloseGuard.initialize(
+    //   context: context,
+    //   onClose: () async {
+    //     // Your cleanup tasks here
+    //   },
+    //   dialogConfigBuilder: () => CloseDialogConfig(
+    //     title: MyLocalizations.of(context)!.exit_title,
+    //     content: MyLocalizations.of(context)!.exit_body,
+    //     confirmText: MyLocalizations.of(context)!.yes,
+    //   ),
+    // );
   }
 
   @override

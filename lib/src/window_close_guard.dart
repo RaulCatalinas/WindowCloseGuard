@@ -12,6 +12,7 @@ class WindowCloseGuard with WindowListener {
   static BuildContext? _context;
   static Future<void> Function()? _onClose;
   static CloseDialogConfig? _dialogConfig;
+  static CloseDialogConfig Function()? _dialogConfigBuilder;
   static bool _showDialog = true;
   static bool _initialized = false;
 
@@ -19,6 +20,7 @@ class WindowCloseGuard with WindowListener {
     required BuildContext context,
     Future<void> Function()? onClose,
     CloseDialogConfig? dialogConfig,
+    CloseDialogConfig Function()? dialogConfigBuilder,
     bool showDialog = true,
   }) {
     if (_initialized) return;
@@ -28,6 +30,7 @@ class WindowCloseGuard with WindowListener {
       _context = context;
       _onClose = onClose;
       _dialogConfig = dialogConfig;
+      _dialogConfigBuilder = dialogConfigBuilder;
       _showDialog = showDialog;
 
       await windowManager.ensureInitialized();
@@ -47,9 +50,13 @@ class WindowCloseGuard with WindowListener {
       return;
     }
 
+    final config = _dialogConfigBuilder?.call() ??
+        _dialogConfig ??
+        const CloseDialogConfig();
+
     final confirmed = await ConfirmDialog.show(
       context,
-      config: _dialogConfig ?? const CloseDialogConfig(),
+      config: config,
       onClose: _onClose,
     );
 
